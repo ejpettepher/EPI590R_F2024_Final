@@ -1,1 +1,1 @@
-Ethan Pettepher
+This repository belongs to Ethan Pettepher
