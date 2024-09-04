@@ -48,7 +48,7 @@ levels(strep_tb_data$improved) <- c("True","False")
 levels(strep_tb_data$gender) <- c("Female", "Male")
 
 #Question 1: Create a {gtsummary} table of descriptive statistics about your data
-tbl_tbl_summary(
+tbl_one <- gtsummary::tbl_summary(
   strep_tb_data,
   by = arm,
   include = c(dose_strep_g, gender, baseline_condition, baseline_temp, baseline_esr, strep_resistance, radiologic_6m, improved),
@@ -66,3 +66,14 @@ tbl_tbl_summary(
 )
 
 #Question 2: Fit a regression and present well-formatted results
+logistic_model <- glm(improved ~ baseline_temp + dose_strep_g + gender,
+                      data = strep_tb_data, family = binomial())
+log_tbl <- gtsummary::tbl_regression(
+  logistic_model,
+  exponentiate = TRUE,
+  label = list(
+    dose_strep_g ~ "Dose of Streptomycin (g)",
+    gender ~ "Sex",
+    baseline_temp ~ "Oral Temperature at Baseline (°F)"
+  ) 
+)
