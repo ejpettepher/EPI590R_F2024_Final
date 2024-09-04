@@ -1,5 +1,12 @@
 install.packages("medicaldata")
+install.packages("here")
+library(here)
 library(medicaldata)
 data(package = "medicaldata")
 here::here("data", "raw")
 strep_tb_data <- medicaldata::strep_tb
+file_path <-here::here("data", "raw")
+saveRDS(strep_tb_data, file = "data.rds")
+source_path <- here("EPI590.3_Final", "data.rds")
+destination_path <- here("data", "data.rds")
+file.rename(source_path, destination_path)
