@@ -4,7 +4,9 @@ subtitle: "EPI 590.3: R Bootcamp"
 author: "Ethan Pettepher"
 date: "09/04/2024"
 abstract: "This document utilizes data that was uploaded to Github by Peter Higgins on 06/24/2021. Higgins adapted the data from a study published in the British Medical Journal titled 'Streptomycin Treatment of Pulmonary Tuberculosis' on October 30, 1948 by the Streptomycin in Tuberculosis Trials Committee (pp.769-782).The data was collected from a prospective, randomized, placebo-controlled trial of Teburculosis patients across several hospitals in London, England in September, 1946 who received either Streptomycin (2.00g dose) or a placebo and followed for 6 months to observe if there were any improvements in outcomes related to Tb (N= 107). A Table 1, Logistical Regression Model, and Figure were created utilizing functions such as {gtsummary}, {broom}, and {ggplot2}. Those figures and accompanying elements of the EPI590.3 Final are outlined."
-format: html
+output:
+  html_document:
+    fig_caption: true
 editor: visual
 execute: 
   echo: false
@@ -92,5 +94,26 @@ log_tbl
 
 ```{r}
 #| label: tbl-two
-#| tbl-cap: "A logistical regression model was fitted to the sample data and exponentiated to determine the odds of improving given the above characteristics"
+#| tbl-cap: "A logistical regression model was fitted to the sample data and exponentiated to approximate the odds of improving given the above characteristics."
+```
+
+
+## Figure
+```{r}
+library(ggplot2)
+freqhist_temp_baseline <- ggplot2::ggplot(strep_tb_data, aes(x = baseline_temp, fill = arm)) +
+                                    geom_bar(position = "identity", alpha = 0.6) +
+                                    facet_wrap(~arm) +
+                                    scale_fill_manual(values = c("Streptomycin" = "#2ecc71", "Control" = "#e67e22")) +
+                                    labs(title = "Frequency Histogram of Oral Temperature at Baseline (°F) comparing Strep to Control",
+                                         x = "Oral Temperature at Baseline (°F)",
+                                         y = "Frequency",
+                                         fill = "Treatment/Control") +
+                                      theme_minimal()
+freqhist_temp_baseline
+```
+
+```{r}
+#| label: fig-hist
+#| fig.cap: "A side-by-side histogram compares the distribution of the baseline oral temperature of patients between Treatment and Control groups."
 ```
