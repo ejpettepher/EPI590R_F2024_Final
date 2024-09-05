@@ -115,5 +115,6 @@ freqhist_temp_baseline
 
 ```{r}
 #| label: fig-hist
-#| fig.cap: "A side-by-side histogram compares the distribution of the baseline oral temperature of patients between Treatment and Control groups."
+#| fig-cap: "A side-by-side histogram compares the distribution of the baseline oral temperature of patients between Treatment and Control groups."
 ```
+@tbl-one displays descriptive statistics, whereas @tbl-two displays a regression analysis.
