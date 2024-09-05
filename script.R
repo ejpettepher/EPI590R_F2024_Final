@@ -77,3 +77,15 @@ log_tbl <- gtsummary::tbl_regression(
     baseline_temp ~ "Oral Temperature at Baseline (°F)"
   ) 
 )
+
+#Question 3: Create a figure
+freqhist_temp_baseline <- ggplot2::ggplot(strep_tb_data, aes(x = baseline_temp, fill = arm)) +
+                                    geom_bar(position = "identity", alpha = 0.6) +
+                                    facet_wrap(~arm) +
+                                    scale_fill_manual(values = c("Streptomycin" = "#2ecc71", "Control" = "#e67e22")) +
+                                    labs(title = "Frequency Histogram of Oral Temperature at Baseline (°F) comparing Strep to Control",
+                                         x = "Oral Temperature at Baseline (°F)",
+                                         y = "Frequency",
+                                         fill = "Case/Control") +
+                                      theme_minimal()
+print(freqhist_temp_baseline)                                    
