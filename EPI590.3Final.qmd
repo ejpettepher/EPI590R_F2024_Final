@@ -76,6 +76,10 @@ tbl_one
 #| label: tbl-one
 #| tbl-cap: "Summary of descriptive statistics of study sample by treatment group."
 ```
+```{r}
+inline_text(tbl_one, variable = "gender", column = "var_type")
+```
+
 ## Logistic Regression Table
 ```{r}
 logistic_model <- glm(improved ~ baseline_temp + dose_strep_g + gender,
