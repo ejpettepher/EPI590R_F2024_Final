@@ -92,3 +92,18 @@ print(freqhist_temp_baseline)
 #Use {here} a second time to save figure
 ggsave(plot = freqhist_temp_baseline,
        filename = here::here("results", "figures", "fig.pdf"))
+#Create a function to calculate the standard deviation of sample radiological outcome ranking
+stdev_final <- function(x) {
+  n <- length(x)
+  avg_val <- sum(x)/ n
+  sqrd_dff <- (x-avg_val)^2
+  sum_sqrd_diff <- sum(sqrd_dff)
+  variance <- sum_sqrd_diff/(n-1)
+  stdevf <- sqrt(variance)
+  return(stdevf)
+}
+stdev_final(strep_tb_data$rad_num)
+sd(strep_tb_data$rad_num, na.rm = TRUE) #checked function accuracy with Base R standard deviation function
+print(stdev_final(strep_tb_data$rad_num))
+print(sd(strep_tb_data$rad_num, na.rm = TRUE))
+
