@@ -6,11 +6,85 @@ date: "09/04/2024"
 abstract: "This document utilizes data that was uploaded to Github by Peter Higgins on 06/24/2021. Higgins adapted the data from a study published in the British Medical Journal titled 'Streptomycin Treatment of Pulmonary Tuberculosis' on October 30, 1948 by the Streptomycin in Tuberculosis Trials Committee (pp.769-782).The data was collected from a prospective, randomized, placebo-controlled trial of Teburculosis patients across several hospitals in London, England in September, 1946 who received either Streptomycin (2.00g dose) or a placebo and followed for 6 months to observe if there were any improvements in outcomes related to Tb (N= 107). A Table 1, Logistical Regression Model, and Figure were created utilizing functions such as {gtsummary}, {broom}, and {ggplot2}. Those figures and accompanying elements of the EPI590.3 Final are outlined."
 format: html
 editor: visual
-execute:
-  eval: false
+execute: 
   echo: false
 ---
 
 # Streptomycin Treatment of Pulmonary Tuberculosis
 
 ## Table
+
+```{r}
+#| cache: true
+#| messages: false
+library(here)
+library(medicaldata)
+library(gtsummary)
+library(ggplot2)
+library(broom)
+library(knitr)
+```
+
+```{r}
+#| cache: true
+#| warning: false
+#| message: false
+#| echo: false
+#| output: false
+data(package = "medicaldata")
+here::here("data", "raw")
+strep_tb_data <- medicaldata::strep_tb
+data(package = "medicaldata")
+here::here("data", "raw")
+strep_tb_data <- medicaldata::strep_tb
+strep_tb_data$dose_strep_g <- factor(strep_tb_data$dose_strep_g,
+                                         levels = c(0,2), 
+                                         labels = c("0.00g", "2.00g"))
+levels(strep_tb_data$baseline_condition) <- c("Good", "Fair", "Poor")
+levels(strep_tb_data$baseline_temp) <- c("98-98.9F", "99-99.9F", "100-100.9F", "100F+")
+levels(strep_tb_data$baseline_esr) <- c("0-10", "11-20", "21-50", "51+")
+levels(strep_tb_data$strep_resistance) <- c("Sensitive", "Moderate Resistance", "Resistant")
+levels(strep_tb_data$radiologic_6m) <- c("Considerable Improvement", "Moderate Improvement", "No Change", "Moderate Deterioration", "Considerable Deterioration", "Death")
+levels(strep_tb_data$baseline_cavitation) <- c("No", "Yes")
+levels(strep_tb_data$improved) <- c("True","False")
+levels(strep_tb_data$gender) <- c("Female", "Male")
+```
+
+```{r}
+tbl_one<- gtsummary::tbl_summary(
+  strep_tb_data,
+  by = arm,
+  include = c(dose_strep_g, gender, baseline_condition, baseline_temp, baseline_esr, strep_resistance, radiologic_6m, improved),
+  label = list(
+    dose_strep_g ~ "Dose of Streptomycin (g)",
+    gender ~ "Sex",
+    baseline_condition ~ "Condition of Pt at Baseline",
+    baseline_temp ~ "Oral Temperature at Baseline (°F)",
+    baseline_esr ~ "Erythrocyte Sedimentation Rate at Baseline (mm/hr)",
+    strep_resistance ~ "Resistance to Streptomycin at month 6",
+    radiologic_6m ~ "Radiologic outcome of Chest X-Ray at month 6",
+    improved ~ "Improved (Yes)"
+  ),
+  missing_text = "Missing"
+)
+tbl_one
+```
+
+```{r}
+#| label: tbl-one
+#| tbl-cap: "Summary of descriptive statistics of study sample by treatment group."
+```
+
+```{r}
+logistic_model <- glm(improved ~ baseline_temp + dose_strep_g + gender,
+                      data = strep_tb_data, family = binomial())
+log_tbl <- gtsummary::tbl_regression(
+  logistic_model,
+  exponentiate = TRUE,
+  label = list(
+    dose_strep_g ~ "Dose of Streptomycin (g)",
+    gender ~ "Sex",
+    baseline_temp ~ "Oral Temperature at Baseline (°F)"
+  ) 
+)
+```
