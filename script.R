@@ -106,4 +106,3 @@ stdev_final(strep_tb_data$rad_num)
 sd(strep_tb_data$rad_num, na.rm = TRUE) #checked function accuracy with Base R standard deviation function
 print(stdev_final(strep_tb_data$rad_num))
 print(sd(strep_tb_data$rad_num, na.rm = TRUE))
-
