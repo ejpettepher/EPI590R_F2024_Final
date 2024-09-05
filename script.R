@@ -86,6 +86,9 @@ freqhist_temp_baseline <- ggplot2::ggplot(strep_tb_data, aes(x = baseline_temp, 
                                     labs(title = "Frequency Histogram of Oral Temperature at Baseline (°F) comparing Strep to Control",
                                          x = "Oral Temperature at Baseline (°F)",
                                          y = "Frequency",
-                                         fill = "Case/Control") +
+                                         fill = "Treatment/Control") +
                                       theme_minimal()
-print(freqhist_temp_baseline)                                    
+print(freqhist_temp_baseline)
+#Use {here} a second time to save figure
+ggsave(plot = freqhist_temp_baseline,
+       filename = here::here("results", "figures", "fig.pdf"))
