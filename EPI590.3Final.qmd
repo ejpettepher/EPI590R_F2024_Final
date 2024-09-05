@@ -74,7 +74,7 @@ tbl_one
 #| label: tbl-one
 #| tbl-cap: "Summary of descriptive statistics of study sample by treatment group."
 ```
-
+## Logistic Regression Table
 ```{r}
 logistic_model <- glm(improved ~ baseline_temp + dose_strep_g + gender,
                       data = strep_tb_data, family = binomial())
@@ -87,4 +87,10 @@ log_tbl <- gtsummary::tbl_regression(
     baseline_temp ~ "Oral Temperature at Baseline (°F)"
   ) 
 )
+log_tbl
+```
+
+```{r}
+#| label: tbl-two
+#| tbl-cap: "A logistical regression model was fitted to the sample data and exponentiated to determine the odds of improving given the above characteristics"
 ```
